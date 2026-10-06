@@ -1,0 +1,25 @@
+IPHub.exe  (monitor de red, SIN inicio de sesion)
+=================================================
+Que hace: al abrirlo escanea la red local y muestra todos los dispositivos conectados con la mayor
+informacion posible (nombre, IP, MAC, fabricante, tipo, SO probable, latencia, puertos y servicios abiertos,
+banners HTTP/SSH, certificados, mDNS/UPnP, riesgo). No pide cuenta, no usa localhost ni Node.
+Los datos se guardan solo en la PC del usuario (~/.iphub-agent.json).
+
+Compilar (en Windows):
+1) Doble clic en BUILD-EXE.bat   (o:  npm run build:exe)
+   - Compila desde la carpeta agent/ (no instala el servidor web: es mucho mas rapido).
+2) Resultado: agent\dist\IPHub.exe  -> copiado a public\download\IPHub.exe
+   El boton "App para Windows" de la pagina lo sirve automaticamente.
+
+Si falla por "Cannot create symbolic link": activa Modo de desarrollador en Windows, o ejecuta como Administrador,
+y borra %LOCALAPPDATA%\electron-builder\Cache\winCodeSign
+
+Probar sin compilar:  cd agent && npm install && npm start
+
+La app web (con login) sigue funcionando aparte:  npm start  (o ABRIR-IPHUB.bat)
+
+
+Conexión con la página: en el exe poné la URL del servidor (por defecto http://127.0.0.1:3001), entrá con el mismo correo y contraseña, o usá Continuar con Google/Discord y confirmá en el navegador. Topología muestra esa red sola. Exportar para la web genera un JSON para importar si no hay conexión.
+
+Build: doble clic en BUILD-EXE.bat. No usa electron-builder (ese pide Modo desarrollador por enlaces simbólicos). Sale agent\\dist\\IPHub-win32-x64\\IPHub.exe y public\\download\\IPHub-Windows.zip. Hay que descomprimir el zip y abrir IPHub.exe dentro de esa carpeta.
+Dueño: iphuboficial@gmail.com / lbaa1986 (también acepta el punto final).

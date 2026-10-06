@@ -1,0 +1,29 @@
+IA del chatbot (obligatorio reiniciar el servidor)
+==================================================
+1) Edita el archivo .env en netvista-pro
+
+2) Agrega (Groq gratis):
+
+GROQ_API_KEY=gsk_tu_clave_aqui
+AI_PROVIDER=groq
+AI_MODEL=llama-3.3-70b-versatile
+
+Clave en: https://console.groq.com/keys
+
+3) Ctrl+C al servidor y de nuevo: npm start
+
+4) Debe decir: IA chatbot: ACTIVA (Groq)
+
+Respaldo recomendado (gratis) para que el chat y las traducciones nunca se queden sin IA
+---------------------------------------------------------------------------------------
+Groq gratis tiene un límite de tokens por minuto (p. ej. 8000 con gpt-oss-120b). Si se alcanza, el servidor
+espera y prueba otro modelo; ya NO desactiva Groq por eso. Para tener más margen agregá un segundo proveedor:
+
+  GEMINI_API_KEY=...        (gratis: https://aistudio.google.com/apikey)
+  OPENROUTER_API_KEY=...    (gratis: https://openrouter.ai/keys)
+  POLLINATIONS_API_KEY=...  (gratis: https://enter.pollinations.ai)
+
+Las líneas no deben empezar con "#". Reiniciá el servidor después de editar .env.
+
+Traducción de la interfaz: usa Google, luego Microsoft y por último la IA. Si un motor falla descansa un rato
+y se pasa al siguiente. Necesita salida a internet (translate.googleapis.com / api-edge.cognitive.microsofttranslator.com).

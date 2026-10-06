@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Contenedor. isBusiness false = personal, true = empresa.
+model Profile {
+  profileId   Int       @id @default(autoincrement())
+  isBusiness  Boolean   @default(false)
+  companyName String?
+  users       User[]
+  sessions    Session[]
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  password    String
+  dateOfBirth DateTime?
+  isAdmin     Boolean   @default(false)
+  profileId   Int
+  profile     Profile   @relation(fields: [profileId], references: [profileId])
+  networks    Network[]
+  sessions    Session[]
+}
+
+// La sesión no es un booleano: es un token con vencimiento. Cerrarla no borra la cuenta del perfil.
+model Session {
+  id        String   @id
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  profileId Int
+  profile   Profile  @relation(fields: [profileId], references: [profileId])
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Network {
+  id              Int             @id @default(autoincrement())
+  alias           String?
+  ipv4            String?
+  ipv6            String?
+  environment     String?
+  subnetMask      String?
+  userId          Int
+  user            User            @relation(fields: [userId], references: [id])
+  hosts           Host[]
+  vulnerabilities Vulnerability[]
+}
+
+model Host {
+  macAddress      String          @id
+  hostname        String?
+  ipv4            String?
+  ipv6            String?
+  trustState      String?
+  operatingSystem String?
+  networkId       Int
+  network         Network         @relation(fields: [networkId], references: [id])
+  ports           Port[]
+  vulnerabilities Vulnerability[]
+}
+
+model Port {
+  id             Int    @id @default(autoincrement())
+  portNumber     Int
+  state          String
+  protocol       String
+  hostMacAddress String
+  host           Host   @relation(fields: [hostMacAddress], references: [macAddress])
+}
+
+model Vulnerability {
+  id             Int      @id @default(autoincrement())
+  cve            String?
+  description    String?
+  riskLevel      String?
+  hostMacAddress String?
+  host           Host?    @relation(fields: [hostMacAddress], references: [macAddress])
+  networkId      Int?
+  network        Network? @relation(fields: [networkId], references: [id])
+}

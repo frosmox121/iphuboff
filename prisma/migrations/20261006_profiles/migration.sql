@@ -1,0 +1,3 @@
+-- Perfil agrupa cuentas. Sesión es un token, no un booleano.
+CREATE TABLE IF NOT EXISTS "Profile" ("profileId" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "isBusiness" BOOLEAN NOT NULL DEFAULT 0, "companyName" TEXT);
+CREATE TABLE IF NOT EXISTS "Session" ("id" TEXT NOT NULL PRIMARY KEY, "userId" INTEGER NOT NULL, "profileId" INTEGER NOT NULL, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "expiresAt" DATETIME NOT NULL);
